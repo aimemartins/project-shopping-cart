@@ -76,13 +76,14 @@ const criarListaProdutos = async () => {
   const capturarSection = document.getElementsByClassName('items');
   const objeto = await fetchProducts('computador');
   const produtos = objeto.results;
+  console.log(produtos);
   const resultado = produtos.forEach((elemento) => {
-    const produto = createProductItemElement(elemento);
+    const { id, title, thumbnail } = elemento;
+    const produto = createProductItemElement({ id, title, thumbnail });
     return capturarSection.appendChild(produto);
   });
   return resultado;
 };
-//
-window.onload = () => {
-  criarListaProdutos();
-};
+// criarListaProdutos()
+//   .then((devolvido) => console.log(devolvido));
+window.onload = () => { };

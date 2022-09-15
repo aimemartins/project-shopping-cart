@@ -10,8 +10,8 @@ const fetchProducts = async (computador) => {
 };
 // O retorno dessa função acima continua sendo uma promessa, por isso é preciso usar o .then para resolver a promessa e retornar o array.
 
-fetchProducts()
-  .then((devolvido) => console.log(devolvido));
+// fetchProducts()
+//   .then((devolvido) => console.log(devolvido));
 
 if (typeof module !== 'undefined') {
   module.exports = {
