@@ -84,6 +84,6 @@ const criarListaProdutos = async () => {
   });
   return resultado;
 };
-// criarListaProdutos()
-//   .then((devolvido) => console.log(devolvido));
+criarListaProdutos()
+  .then((devolvido) => console.log(devolvido));
 window.onload = () => { };
