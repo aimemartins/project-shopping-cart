@@ -72,18 +72,15 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 //   return li;
 // };
 
+// Função para criar a lista de produtos usando fetchProducts:
 const criarListaProdutos = async () => {
-  const capturarSection = document.getElementsByClassName('items');
   const objeto = await fetchProducts('computador');
   const produtos = objeto.results;
-  console.log(produtos);
-  const resultado = produtos.forEach((elemento) => {
-    const { id, title, thumbnail } = elemento;
-    const produto = createProductItemElement({ id, title, thumbnail });
-    return capturarSection.appendChild(produto);
+  produtos.forEach((e) => {
+    const produto = createProductItemElement({ id: e.id, title: e.title, thumbnail: e.thumbnail });
+     document.querySelector('.items').appendChild(produto);
   });
-  return resultado;
 };
-criarListaProdutos()
-  .then((devolvido) => console.log(devolvido));
+criarListaProdutos();
+
 window.onload = () => { };
