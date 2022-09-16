@@ -54,7 +54,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+// const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -79,6 +79,17 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
+// Requisito 6 
+const addLocalStorage = () => {
+  // usa a saveCartItems para salvar os itens no localStorage
+  const array = [];
+  const lista = document.querySelectorAll('.cart__item');
+  lista.forEach((elem) => {
+    array.push(elem.innerText);
+  });
+  saveCartItems(array);
+};
 // -------> Requisito 4 - Utilizar o fetchItem para adicionar um item ao carrinho de compras:
 
 // (Parte - 2) - Na função acaoDoBotao é criado um evento para adicionar
@@ -89,7 +100,10 @@ const acaoDoBotao = async (evento) => {
   const infos = evento.target.parentNode.firstChild.innerText;
   const item = await fetchItem(infos);
   const meuCarrinho = document.querySelector('.cart__items');
-  meuCarrinho.appendChild(createCartItemElement(item));
+  const a = createCartItemElement(item);
+  // cria os filhos dentro do pai 'meuCarrinho'
+   meuCarrinho.appendChild(a);
+   addLocalStorage();
 };
 // (Parte - 1) - Captura os botões e usa o forEach para criar um evento em todos eles
 // esse evento a partir do click é criado na função acaoDoBotao
@@ -105,7 +119,7 @@ const criarListaProdutos = async () => {
   const objeto = await fetchProducts('computador');
   const produtos = objeto.results;
   produtos.forEach((e) => {
-    const produto = createProductItemElement({ id: e.id, title: e.title, thumbnail: e.thumbnail });
+    const produto = createProductItemElement(e);
     document.querySelector('.items').appendChild(produto);
   });
 };
