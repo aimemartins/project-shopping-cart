@@ -68,7 +68,7 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
 
 const cartItemClickListener = (evento) => {
   const meuCarrinho = document.querySelector('.cart__items');
-  meuCarrinho.remove(evento.target);
+  meuCarrinho.removeChild(evento.target);
 };
 
 // 
