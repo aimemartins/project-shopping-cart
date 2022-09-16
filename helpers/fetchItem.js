@@ -9,8 +9,8 @@ const fetchItem = async (item) => {
   }
 };
 
-fetchItem('MLB1615760527')
-  .then((devolvido) => console.log(devolvido));
+// fetchItem('MLB1341706310')
+//   .then((devolvido) => console.log(devolvido));
 
 if (typeof module !== 'undefined') {
   module.exports = {

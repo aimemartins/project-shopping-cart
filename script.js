@@ -54,7 +54,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-// const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -64,23 +64,53 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-// const createCartItemElement = ({ id, title, price }) => {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// };
+// Requisito 5 - Remover o item do carrinho - É utilizada a função já criada.
 
-// Função para criar a lista de produtos usando fetchProducts:
+const cartItemClickListener = (evento) => {
+  const meuCarrinho = document.querySelector('.cart__items');
+  meuCarrinho.remove(evento.target);
+};
+
+// 
+const createCartItemElement = ({ id, title, price }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+};
+// -------> Requisito 4 - Utilizar o fetchItem para adicionar um item ao carrinho de compras:
+
+// (Parte - 2) - Na função acaoDoBotao é criado um evento para adicionar
+// ao carrinho o item que foi clicado. As informações que vão para o carrinho são 
+// criadas pela função createCartItemElement
+
+const acaoDoBotao = async (evento) => {
+  const infos = evento.target.parentNode.firstChild.innerText;
+  const item = await fetchItem(infos);
+  const meuCarrinho = document.querySelector('.cart__items');
+  meuCarrinho.appendChild(createCartItemElement(item));
+};
+// (Parte - 1) - Captura os botões e usa o forEach para criar um evento em todos eles
+// esse evento a partir do click é criado na função acaoDoBotao
+
+const produtoNoCarrinho = async () => {
+  const botoesAdd = document.querySelectorAll('.item__add');
+ return botoesAdd.forEach((botao) => botao.addEventListener('click', acaoDoBotao));
+};
+
+// --------> Requisito 2 - Função para criar a lista de produtos usando fetchProducts:
+
 const criarListaProdutos = async () => {
   const objeto = await fetchProducts('computador');
   const produtos = objeto.results;
   produtos.forEach((e) => {
     const produto = createProductItemElement({ id: e.id, title: e.title, thumbnail: e.thumbnail });
-     document.querySelector('.items').appendChild(produto);
+    document.querySelector('.items').appendChild(produto);
   });
 };
-criarListaProdutos();
 
-window.onload = () => { };
+window.onload = async () => { 
+  await criarListaProdutos();
+  await produtoNoCarrinho();
+};
