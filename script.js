@@ -88,7 +88,7 @@ const addLocalStorage = () => {
   lista.forEach((elem) => {
     array.push(elem.innerText);
   });
-  saveCartItems(array);
+  saveCartItems(JSON.stringify(array));
 };
 // -------> Requisito 4 - Utilizar o fetchItem para adicionar um item ao carrinho de compras:
 
