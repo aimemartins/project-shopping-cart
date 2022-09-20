@@ -64,22 +64,6 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-// Requisito 5 - Remover o item do carrinho - É utilizada a função já criada.
-
-const cartItemClickListener = (evento) => {
-  const meuCarrinho = document.querySelector('.cart__items');
-  meuCarrinho.removeChild(evento.target);
-};
-
-// 
-const createCartItemElement = ({ id, title, price }) => {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-};
-
 // Requisito 6 
 const addLocalStorage = () => {
   // usa a saveCartItems para salvar os itens no localStorage
@@ -90,6 +74,24 @@ const addLocalStorage = () => {
   });
   saveCartItems(JSON.stringify(array));
 };
+// Requisito 5 - Remover o item do carrinho - É utilizada a função já criada.
+
+const cartItemClickListener = (evento) => {
+  const meuCarrinho = document.querySelector('.cart__items');
+  meuCarrinho.removeChild(evento.target);
+  // ***
+  addLocalStorage();
+};
+// 
+// 
+const createCartItemElement = ({ id, title, price }) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+};
+
 // -------> Requisito 4 - Utilizar o fetchItem para adicionar um item ao carrinho de compras:
 
 // (Parte - 2) - Na função acaoDoBotao é criado um evento para adicionar
@@ -124,7 +126,40 @@ const criarListaProdutos = async () => {
   });
 };
 
+// Requisito 10 - Esvaziar o carrinho de compras usando o botão Esvaziar Carrinho
+
+const esvaziarCarrinho = async () => {
+  botaoEsvaziar = document.querySelector('.empty-cart');
+  const meuCarrinho = document.querySelector('.cart__items');
+  botaoEsvaziar.addEventListener('click', () => {
+    meuCarrinho.innerText = '';
+    localStorage.removeItem('cartItems');
+  });
+};
+
+// Requisito 8 
+
+const imprimirCarrinho = () => {
+  let carrinhoLocalStorage = getSavedCartItems();
+
+  if (carrinhoLocalStorage === null) {
+     return;
+  } 
+    carrinhoLocalStorage = JSON.parse(getSavedCartItems());
+  
+  const meuCarrinho = document.querySelector('.cart__items');
+
+  carrinhoLocalStorage.forEach((elem) => {
+    const li = document.createElement('li');
+    li.innerText = elem;
+    li.addEventListener('click', cartItemClickListener);
+    meuCarrinho.appendChild(li);
+  });
+};
+
 window.onload = async () => { 
   await criarListaProdutos();
   await produtoNoCarrinho();
+  await esvaziarCarrinho();
+  imprimirCarrinho();
 };
