@@ -2,7 +2,7 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
-
+const meuCarrinho = document.querySelector('.cart__items');
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -77,9 +77,9 @@ const addLocalStorage = () => {
 // Requisito 5 - Remover o item do carrinho - É utilizada a função já criada.
 
 const cartItemClickListener = (evento) => {
-  const meuCarrinho = document.querySelector('.cart__items');
   meuCarrinho.removeChild(evento.target);
-  // ***
+  // até aqui o código apaga só aquilo que eu acabei de clicar, o que foi salvo no 
+  // localStorage não apaga. Para apagar tudo eu preciso chamar a addLocalStorage
   addLocalStorage();
 };
 // 
@@ -101,7 +101,6 @@ const createCartItemElement = ({ id, title, price }) => {
 const acaoDoBotao = async (evento) => {
   const infos = evento.target.parentNode.firstChild.innerText;
   const item = await fetchItem(infos);
-  const meuCarrinho = document.querySelector('.cart__items');
   const a = createCartItemElement(item);
   // cria os filhos dentro do pai 'meuCarrinho'
    meuCarrinho.appendChild(a);
@@ -130,7 +129,6 @@ const criarListaProdutos = async () => {
 
 const esvaziarCarrinho = async () => {
   botaoEsvaziar = document.querySelector('.empty-cart');
-  const meuCarrinho = document.querySelector('.cart__items');
   botaoEsvaziar.addEventListener('click', () => {
     meuCarrinho.innerText = '';
     localStorage.removeItem('cartItems');
@@ -146,8 +144,6 @@ const imprimirCarrinho = () => {
      return;
   } 
     carrinhoLocalStorage = JSON.parse(getSavedCartItems());
-  
-  const meuCarrinho = document.querySelector('.cart__items');
 
   carrinhoLocalStorage.forEach((elem) => {
     const li = document.createElement('li');
